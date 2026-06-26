@@ -1,0 +1,38 @@
+# ================================
+# FastHopper Configuration
+# Author: NghiaDark Studio
+# ================================
+
+# Số lượng item hopper truyền mỗi lần (mặc định vanilla = 1)
+# Giá trị cho phép: 1 - 64
+transfer-amount: 1
+
+# Tốc độ truyền item (tính bằng tick, mặc định vanilla = 8 tick)
+# 20 tick = 1 giây
+# Giá trị cho phép: 1 - 100
+transfer-cooldown: 8
+
+# Prefix hiển thị trong chat
+prefix: "&6&l[FastHopper] &r"
+
+# Tin nhắn
+messages:
+  reload-success: "&aCấu hình đã được tải lại thành công!"
+  set-amount-success: "&aĐã đặt số lượng item truyền mỗi lần thành &e%amount%&a!"
+  set-cooldown-success: "&aĐã đặt tốc độ truyền thành &e%cooldown% tick&a!"
+  invalid-number: "&cVui lòng nhập một số hợp lệ!"
+  invalid-range-amount: "&cSố lượng phải nằm trong khoảng 1 - 64!"
+  invalid-range-cooldown: "&cTốc độ phải nằm trong khoảng 1 - 100 tick!"
+  no-permission: "&cBạn không có quyền sử dụng lệnh này!"
+  info: |
+    &6&l━━━ FastHopper Info ━━━
+    &7Số lượng item truyền: &e%amount%
+    &7Tốc độ truyền: &e%cooldown% tick
+    &6&l━━━━━━━━━━━━━━━━━━━━━
+  help: |
+    &6&l━━━ FastHopper Help ━━━
+    &e/fh set amount <số> &7- Đặt số item truyền mỗi lần
+    &e/fh set cooldown <số> &7- Đặt tốc độ truyền (tick)
+    &e/fh info &7- Xem thông tin cấu hình hiện tại
+    &e/fh reload &7- Tải lại cấu hình
+    &6&l━━━━━━━━━━━━━━━━━━━━━━

@@ -1,0 +1,25 @@
+name: FastHopper
+version: '${project.version}'
+main: com.nghiadark.fasthopper.FastHopper
+api-version: '1.21'
+author: NghiaDark Studio
+description: A plugin to increase hopper transfer speed by allowing multiple items per transfer tick.
+commands:
+  fasthopper:
+    description: FastHopper main command
+    usage: /fasthopper <set|reload|info>
+    aliases:
+      - fh
+permissions:
+  fasthopper.admin:
+    description: Allows access to all FastHopper commands
+    default: op
+  fasthopper.reload:
+    description: Allows reloading the config
+    default: op
+  fasthopper.set:
+    description: Allows setting hopper transfer amount
+    default: op
+  fasthopper.info:
+    description: Allows viewing hopper info
+    default: op
