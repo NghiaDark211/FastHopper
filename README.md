@@ -9,6 +9,7 @@
 - Easy `/fh` command with tab-complete
 - Vietnamese language support in config
 - Performance optimized, prevents item duplication
+- Automatic update checker with admin notifications
 
 ## Commands
 
@@ -18,6 +19,7 @@
 | `/fh set cooldown <number>` | Set transfer speed (ticks) | `fasthopper.set` |
 | `/fh info` | View current configuration | `fasthopper.info` |
 | `/fh reload` | Reload configuration | `fasthopper.reload` |
+| `/fh update` | Check for plugin updates | `fasthopper.update` |
 | `/fh help` | Show help | `fasthopper.admin` |
 
 Alias: `/fasthopper`
@@ -30,6 +32,7 @@ Alias: `/fasthopper`
 | `fasthopper.set` | Set transfer amount and speed | op |
 | `fasthopper.reload` | Reload configuration | op |
 | `fasthopper.info` | View configuration info | op |
+| `fasthopper.update` | Check for plugin updates | op |
 
 ## Config (`config.yml`)
 

@@ -2,29 +2,37 @@ package com.nghiadark.fasthopper;
 
 import com.nghiadark.fasthopper.commands.FastHopperCommand;
 import com.nghiadark.fasthopper.listeners.HopperListener;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class FastHopper extends JavaPlugin {
+public final class FastHopper extends JavaPlugin implements Listener {
 
     private static FastHopper instance;
     private int transferAmount;
     private int transferCooldown;
+    private UpdateChecker updateChecker;
 
     @Override
     public void onEnable() {
         instance = this;
 
-        // Save default config
         saveDefaultConfig();
         loadConfigValues();
 
-        // Register listener
         getServer().getPluginManager().registerEvents(new HopperListener(this), this);
+        getServer().getPluginManager().registerEvents(this, this);
 
-        // Register command
         FastHopperCommand command = new FastHopperCommand(this);
         getCommand("fasthopper").setExecutor(command);
         getCommand("fasthopper").setTabCompleter(command);
+
+        updateChecker = new UpdateChecker(this);
+        getServer().getGlobalRegionScheduler().runDelayed(this, scheduledTask -> {
+            updateChecker.checkAsync();
+        }, 60);
 
         getLogger().info("FastHopper has been enabled!");
         getLogger().info("Transfer amount: " + transferAmount + " items per transfer");
@@ -36,39 +44,38 @@ public final class FastHopper extends JavaPlugin {
         getLogger().info("FastHopper has been disabled!");
     }
 
-    /**
-     * Load values from config.yml into memory
-     */
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (!player.hasPermission("fasthopper.update")) return;
+
+        getServer().getGlobalRegionScheduler().runDelayed(this, scheduledTask -> {
+            if (updateChecker.isUpdateAvailable()) {
+                player.sendMessage(updateChecker.getUpdateMessage(true));
+            }
+        }, 20);
+    }
+
     public void loadConfigValues() {
         reloadConfig();
         transferAmount = getConfig().getInt("transfer-amount", 1);
         transferCooldown = getConfig().getInt("transfer-cooldown", 8);
 
-        // Clamp values
         transferAmount = Math.max(1, Math.min(64, transferAmount));
         transferCooldown = Math.max(1, Math.min(100, transferCooldown));
     }
 
-    /**
-     * Get a formatted message from config with prefix
-     */
     public String getMessage(String path) {
         String prefix = getConfig().getString("prefix", "&6&l[FastHopper] &r");
         String message = getConfig().getString("messages." + path, "&cMessage not found: " + path);
         return colorize(prefix + message);
     }
 
-    /**
-     * Get a raw message from config (no prefix)
-     */
     public String getRawMessage(String path) {
         String message = getConfig().getString("messages." + path, "&cMessage not found: " + path);
         return colorize(message);
     }
 
-    /**
-     * Translate color codes using legacy '&' format
-     */
     public String colorize(String text) {
         return org.bukkit.ChatColor.translateAlternateColorCodes('&', text);
     }
@@ -95,5 +102,9 @@ public final class FastHopper extends JavaPlugin {
         this.transferCooldown = Math.max(1, Math.min(100, cooldown));
         getConfig().set("transfer-cooldown", this.transferCooldown);
         saveConfig();
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 }

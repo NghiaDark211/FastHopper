@@ -1,6 +1,7 @@
 package com.nghiadark.fasthopper.commands;
 
 import com.nghiadark.fasthopper.FastHopper;
+import com.nghiadark.fasthopper.UpdateChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,7 @@ public class FastHopperCommand implements CommandExecutor, TabCompleter {
             case "reload" -> handleReload(sender);
             case "set" -> handleSet(sender, args);
             case "info" -> handleInfo(sender);
+            case "update" -> handleUpdate(sender);
             case "help" -> sendHelp(sender);
             default -> sendHelp(sender);
         }
@@ -118,6 +120,15 @@ public class FastHopperCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handleUpdate(CommandSender sender) {
+        UpdateChecker uc = plugin.getUpdateChecker();
+        if (uc == null || !uc.isChecked()) {
+            sender.sendMessage(plugin.getMessage("update-checking"));
+            return;
+        }
+        sender.sendMessage(uc.getUpdateMessage(true));
+    }
+
     private void sendHelp(CommandSender sender) {
         String prefix = plugin.getConfig().getString("prefix", "&6&l[FastHopper] &r");
         String help = plugin.getConfig().getString("messages.help", "");
@@ -138,7 +149,7 @@ public class FastHopperCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.addAll(Arrays.asList("set", "reload", "info", "help"));
+            completions.addAll(Arrays.asList("set", "reload", "info", "update", "help"));
         } else if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
             completions.addAll(Arrays.asList("amount", "cooldown"));
         } else if (args.length == 3 && args[0].equalsIgnoreCase("set")) {

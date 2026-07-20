@@ -24,3 +24,6 @@ permissions:
   fasthopper.info:
     description: Allows viewing hopper info
     default: op
+  fasthopper.update:
+    description: Allows viewing update checker info
+    default: op
