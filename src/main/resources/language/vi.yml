@@ -1,0 +1,24 @@
+reload-success: "&aCấu hình đã được tải lại thành công!"
+set-amount-success: "&aĐã đặt số lượng item truyền mỗi lần thành &e%amount%&a!"
+set-cooldown-success: "&aĐã đặt tốc độ truyền thành &e%cooldown% tick&a!"
+invalid-number: "&cVui lòng nhập một số hợp lệ!"
+invalid-range-amount: "&cSố lượng phải nằm trong khoảng 1 - 64!"
+invalid-range-cooldown: "&cTốc độ phải nằm trong khoảng 1 - 100 tick!"
+no-permission: "&cBạn không có quyền sử dụng lệnh này!"
+info: |
+  &6&l━━━ FastHopper Info ━━━
+  &7Số lượng item truyền: &e%amount%
+  &7Tốc độ truyền: &e%cooldown% tick
+  &6&l━━━━━━━━━━━━━━━━━━━━━
+help: |
+  &6&l━━━ FastHopper Help ━━━
+  &e/fh set amount <số> &7- Đặt số item truyền mỗi lần
+  &e/fh set cooldown <số> &7- Đặt tốc độ truyền (tick)
+  &e/fh info &7- Xem thông tin cấu hình hiện tại
+  &e/fh reload &7- Tải lại cấu hình
+  &e/fh update &7- Kiểm tra bản cập nhật
+  &6&l━━━━━━━━━━━━━━━━━━━━━━
+update-available: "&aCó bản cập nhật mới: &ev%latest% &a! Tải tại &ehttps://modrinth.com/project/fasthopper"
+update-latest: "&aBạn đang dùng bản mới nhất!"
+update-checking: "&eĐang kiểm tra cập nhật..."
+update-check-failed: "&cKhông thể kiểm tra cập nhật!"

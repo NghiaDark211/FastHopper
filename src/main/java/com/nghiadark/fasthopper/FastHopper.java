@@ -2,11 +2,18 @@ package com.nghiadark.fasthopper;
 
 import com.nghiadark.fasthopper.commands.FastHopperCommand;
 import com.nghiadark.fasthopper.listeners.HopperListener;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class FastHopper extends JavaPlugin implements Listener {
 
@@ -14,13 +21,16 @@ public final class FastHopper extends JavaPlugin implements Listener {
     private int transferAmount;
     private int transferCooldown;
     private UpdateChecker updateChecker;
+    private Map<String, String> messagesCache;
 
     @Override
     public void onEnable() {
         instance = this;
 
         saveDefaultConfig();
+        upgradeConfig();
         loadConfigValues();
+        loadLanguage();
 
         getServer().getPluginManager().registerEvents(new HopperListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
@@ -56,6 +66,17 @@ public final class FastHopper extends JavaPlugin implements Listener {
         }, 20);
     }
 
+    private void upgradeConfig() {
+        if (getConfig().contains("messages")) {
+            getConfig().set("messages", null);
+            if (!getConfig().contains("language")) {
+                getConfig().set("language", "en");
+            }
+            saveConfig();
+            getLogger().info("Upgraded config.yml to new format (language files)");
+        }
+    }
+
     public void loadConfigValues() {
         reloadConfig();
         transferAmount = getConfig().getInt("transfer-amount", 1);
@@ -65,14 +86,39 @@ public final class FastHopper extends JavaPlugin implements Listener {
         transferCooldown = Math.max(1, Math.min(100, transferCooldown));
     }
 
+    public void loadLanguage() {
+        messagesCache = new HashMap<>();
+        String lang = getConfig().getString("language", "en");
+        String fileName = "language/" + lang + ".yml";
+
+        YamlConfiguration langConfig;
+        try (InputStreamReader reader = new InputStreamReader(
+                getResource(fileName), StandardCharsets.UTF_8)) {
+            langConfig = YamlConfiguration.loadConfiguration(reader);
+        } catch (Exception e) {
+            getLogger().warning("Could not load language file: " + fileName + ", falling back to en");
+            try (InputStreamReader reader = new InputStreamReader(
+                    getResource("language/en.yml"), StandardCharsets.UTF_8)) {
+                langConfig = YamlConfiguration.loadConfiguration(reader);
+            } catch (Exception e2) {
+                getLogger().severe("Could not load default language file!");
+                return;
+            }
+        }
+
+        for (String key : langConfig.getKeys(false)) {
+            messagesCache.put(key, langConfig.getString(key, ""));
+        }
+    }
+
     public String getMessage(String path) {
         String prefix = getConfig().getString("prefix", "&6&l[FastHopper] &r");
-        String message = getConfig().getString("messages." + path, "&cMessage not found: " + path);
+        String message = messagesCache != null ? messagesCache.getOrDefault(path, "&cMessage not found: " + path) : "&cMessage not found: " + path;
         return colorize(prefix + message);
     }
 
     public String getRawMessage(String path) {
-        String message = getConfig().getString("messages." + path, "&cMessage not found: " + path);
+        String message = messagesCache != null ? messagesCache.getOrDefault(path, "&cMessage not found: " + path) : "&cMessage not found: " + path;
         return colorize(message);
     }
 

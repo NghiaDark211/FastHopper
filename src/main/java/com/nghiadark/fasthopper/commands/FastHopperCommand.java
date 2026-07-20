@@ -109,8 +109,7 @@ public class FastHopperCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        String prefix = plugin.getConfig().getString("prefix", "&6&l[FastHopper] &r");
-        String info = plugin.getConfig().getString("messages.info", "");
+        String info = plugin.getRawMessage("info");
         String[] lines = plugin.colorize(info).split("\n");
 
         for (String line : lines) {
@@ -130,8 +129,7 @@ public class FastHopperCommand implements CommandExecutor, TabCompleter {
     }
 
     private void sendHelp(CommandSender sender) {
-        String prefix = plugin.getConfig().getString("prefix", "&6&l[FastHopper] &r");
-        String help = plugin.getConfig().getString("messages.help", "");
+        String help = plugin.getRawMessage("help");
         String[] lines = plugin.colorize(help).split("\n");
 
         for (String line : lines) {

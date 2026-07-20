@@ -1,0 +1,24 @@
+reload-success: "&aConfiguration reloaded successfully!"
+set-amount-success: "&aSet transfer amount to &e%amount%&a!"
+set-cooldown-success: "&aSet transfer speed to &e%cooldown% tick&a!"
+invalid-number: "&cPlease enter a valid number!"
+invalid-range-amount: "&cAmount must be between 1 and 64!"
+invalid-range-cooldown: "&cSpeed must be between 1 and 100 ticks!"
+no-permission: "&cYou do not have permission to use this command!"
+info: |
+  &6&l━━━ FastHopper Info ━━━
+  &7Transfer amount: &e%amount%
+  &7Transfer speed: &e%cooldown% tick
+  &6&l━━━━━━━━━━━━━━━━━━━━━
+help: |
+  &6&l━━━ FastHopper Help ━━━
+  &e/fh set amount <number> &7- Set items per transfer
+  &e/fh set cooldown <number> &7- Set transfer speed (ticks)
+  &e/fh info &7- View current configuration
+  &e/fh reload &7- Reload configuration
+  &e/fh update &7- Check for updates
+  &6&l━━━━━━━━━━━━━━━━━━━━━━
+update-available: "&aNew version available: &ev%latest% &a! Download at &ehttps://modrinth.com/project/fasthopper"
+update-latest: "&aYou are using the latest version!"
+update-checking: "&eChecking for updates..."
+update-check-failed: "&cFailed to check for updates!"
