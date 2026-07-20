@@ -46,7 +46,7 @@ prefix: "&6&l[FastHopper] &r"
 
 ## Requirements
 
-- Paper 1.21.11 or higher
+- Paper 1.21.11 or higher (also supports Folia 1.21.11+)
 - Java 21
 
 ## Installation

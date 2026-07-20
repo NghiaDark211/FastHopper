@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 
 public class HopperListener implements Listener {
 
@@ -51,12 +51,9 @@ public class HopperListener implements Listener {
         ItemStack movedItem = event.getItem().clone();
 
         // Schedule additional transfers on the next tick to avoid modifying inventories during the event
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                transferExtraItems(source, destination, movedItem, extraItems);
-            }
-        }.runTask(plugin);
+        plugin.getServer().getGlobalRegionScheduler().run(plugin, scheduledTask -> {
+            transferExtraItems(source, destination, movedItem, extraItems);
+        });
     }
 
     /**

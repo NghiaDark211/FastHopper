@@ -2,6 +2,7 @@ name: FastHopper
 version: '${project.version}'
 main: com.nghiadark.fasthopper.FastHopper
 api-version: '1.21'
+folia-supported: true
 author: NghiaDark Studio
 description: A plugin to increase hopper transfer speed by allowing multiple items per transfer tick.
 commands:
